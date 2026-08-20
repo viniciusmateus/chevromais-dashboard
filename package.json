@@ -11,6 +11,7 @@
     "build:widget": "vite build --config vite.widget.config.js",
     "build": "npm run build:astro && npm run build:widget",
     "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs",
     "astro": "astro"
   },
   "dependencies": {
