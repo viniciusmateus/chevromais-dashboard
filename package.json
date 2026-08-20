@@ -5,15 +5,16 @@
   "engines": {
     "node": ">=22.12.0"
   },
-"scripts": {
-  "dev": "astro dev",
-  "build:astro": "astro build",
-  "build:widget": "vite build --config vite.widget.config.js",
-  "build": "npm run build:astro && npm run build:widget",
-  "preview": "astro preview",
-  "astro": "astro"
-},
+  "scripts": {
+    "dev": "astro dev",
+    "build:astro": "astro build",
+    "build:widget": "vite build --config vite.widget.config.js",
+    "build": "npm run build:astro && npm run build:widget",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
   "dependencies": {
+    "@astrojs/node": "^11.1.4",
     "@astrojs/react": "^6.0.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
