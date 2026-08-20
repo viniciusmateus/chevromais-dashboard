@@ -1,0 +1,911 @@
+{
+  "tire-selection": {
+    "categories": {
+      "-OyZdu9LBbyOZSRPgmh6": {
+        "label": "Passeio",
+        "url": "/passeio",
+        "widths": {
+          "165": {
+            "40": [
+              "17"
+            ],
+            "70": [
+              "13"
+            ],
+            "-": [
+              ""
+            ]
+          },
+          "175": {
+            "65": [
+              "15",
+              "14"
+            ],
+            "70": [
+              "13",
+              "14"
+            ],
+            "75": [
+              "14"
+            ],
+            "80": [
+              "14"
+            ]
+          },
+          "185": {
+            "55": [
+              "16"
+            ],
+            "60": [
+              "15",
+              "14"
+            ],
+            "65": [
+              "15",
+              "14"
+            ],
+            "70": [
+              "13",
+              "14"
+            ]
+          },
+          "195": {
+            "40": [
+              "17"
+            ],
+            "45": [
+              "17"
+            ],
+            "50": [
+              "15",
+              "16"
+            ],
+            "55": [
+              "15",
+              "16"
+            ],
+            "60": [
+              "15",
+              "16"
+            ],
+            "65": [
+              "15"
+            ]
+          },
+          "205": {
+            "40": [
+              "17"
+            ],
+            "45": [
+              "17"
+            ],
+            "50": [
+              "17"
+            ],
+            "55": [
+              "16",
+              "15",
+              "17"
+            ],
+            "60": [
+              "15",
+              "16"
+            ],
+            "65": [
+              "15",
+              "16"
+            ]
+          },
+          "215": {
+            "45": [
+              "17",
+              "18"
+            ],
+            "50": [
+              "17"
+            ],
+            "55": [
+              "17"
+            ],
+            "65": [
+              "16",
+              "17"
+            ]
+          },
+          "225": {
+            "30": [
+              "20"
+            ],
+            "40": [
+              "18"
+            ],
+            "45": [
+              "17",
+              "18"
+            ],
+            "50": [
+              "17",
+              "18"
+            ],
+            "60": [
+              "18"
+            ],
+            "65": [
+              "16"
+            ],
+            "75": [
+              "16"
+            ]
+          },
+          "235": {
+            "50": [
+              "18"
+            ],
+            "55": [
+              "17",
+              "18",
+              "19"
+            ],
+            "65": [
+              "17"
+            ]
+          },
+          "245": {
+            "40": [
+              "18"
+            ],
+            "45": [
+              "17",
+              "18",
+              "20"
+            ],
+            "50": [
+              "18"
+            ]
+          },
+          "255": {
+            "50": [
+              "20",
+              "19"
+            ],
+            "55": [
+              "19"
+            ]
+          },
+          "265": {
+            "50": [
+              "20"
+            ],
+            "70": [
+              "16"
+            ]
+          },
+          "275": {
+            "40": [
+              "20",
+              "19"
+            ],
+            "45": [
+              "20"
+            ]
+          },
+          "315": {
+            "35": [
+              "20"
+            ]
+          }
+        }
+      },
+      "-OyZe1Mousf6pNgg0czJ": {
+        "label": "Pickup e SUV",
+        "url": "/pickup-e-suv",
+        "widths": {
+          "30": {
+            "9_5": [
+              "15"
+            ]
+          },
+          "31": {
+            "10_5": [
+              "15"
+            ]
+          },
+          "33": {
+            "12_5": [
+              "15"
+            ]
+          },
+          "35": {
+            "12_5": [
+              "15"
+            ]
+          },
+          "37": {
+            "12_5": [
+              "17"
+            ]
+          },
+          "175": {
+            "70": [
+              "14"
+            ]
+          },
+          "205": {
+            "60": [
+              "16"
+            ],
+            "65": [
+              "15"
+            ],
+            "70": [
+              "15"
+            ]
+          },
+          "215": {
+            "50": [
+              "17"
+            ],
+            "60": [
+              "17"
+            ],
+            "65": [
+              "16"
+            ],
+            "70": [
+              "16"
+            ]
+          },
+          "225": {
+            "55": [
+              "18"
+            ],
+            "60": [
+              "18",
+              "17"
+            ],
+            "65": [
+              "17"
+            ],
+            "70": [
+              "16",
+              "17"
+            ],
+            "75": [
+              "16"
+            ]
+          },
+          "235": {
+            "55": [
+              "18",
+              "17"
+            ],
+            "60": [
+              "16"
+            ],
+            "70": [
+              "16"
+            ],
+            "75": [
+              "15"
+            ]
+          },
+          "245": {
+            "70": [
+              "16"
+            ],
+            "75": [
+              "16"
+            ]
+          },
+          "255": {
+            "55": [
+              "18"
+            ],
+            "60": [
+              "18"
+            ],
+            "70": [
+              "16"
+            ]
+          },
+          "265": {
+            "60": [
+              "18"
+            ],
+            "65": [
+              "17"
+            ],
+            "70": [
+              "16",
+              "18",
+              "17"
+            ]
+          }
+        }
+      },
+      "-Oy_JygfaBzE9zgmyuKm": {
+        "label": "Van ou Veículo Comercial",
+        "url": "/van-ou-veiculo-comercial",
+        "widths": {
+          "185": {
+            "-": [
+              "14"
+            ],
+            "_placeholder": true
+          },
+          "215": {
+            "75": [
+              "17_5"
+            ]
+          }
+        }
+      },
+      "-Oy_L-fsEPwSelTc5SHo": {
+        "label": "Caminhão e Ônibus",
+        "url": "/caminhao-e-onibus",
+        "widths": {
+          "215": {
+            "75": [
+              "17_5"
+            ]
+          },
+          "275": {
+            "80": [
+              "22_5"
+            ]
+          },
+          "295": {
+            "80": [
+              "22_5"
+            ]
+          },
+          "7_50": {
+            "-": [
+              "16"
+            ],
+            "_placeholder": true
+          },
+          "9_00": {
+            "-": [
+              "20"
+            ],
+            "_placeholder": true
+          }
+        }
+      },
+      "-OyeLyw8hZrx3sFet0Tv": {
+        "label": "OTR",
+        "url": "/otr",
+        "widths": {
+          "15": {
+            "6_00": [
+              "6"
+            ]
+          },
+          "16": {
+            "6_50": [
+              "8"
+            ]
+          },
+          "18": {
+            "8_50": [
+              "8"
+            ],
+            "9_5": [
+              "8"
+            ]
+          },
+          "20": {
+            "10_00": [
+              "8"
+            ]
+          },
+          "21": {
+            "7": [
+              "10"
+            ]
+          },
+          "24": {
+            "8": [
+              "12"
+            ],
+            "10": [
+              "11"
+            ]
+          },
+          "205": {
+            "50": [
+              "10"
+            ]
+          },
+          "215": {
+            "40": [
+              "12"
+            ]
+          },
+          "17_5": {
+            "-": [
+              "25"
+            ],
+            "_placeholder": true
+          }
+        }
+      },
+      "-OyeMkFgz4NDhqMjEdlw": {
+        "label": "Industrial",
+        "url": "/industrial",
+        "widths": {
+          "10": {
+            "-": [
+              "16_5"
+            ]
+          },
+          "6_00": {
+            "-": [
+              "9"
+            ],
+            "_placeholder": true
+          },
+          "6_50": {
+            "-": [
+              "10"
+            ],
+            "_placeholder": true
+          }
+        }
+      },
+      "-OyjXnfH7_SCAM5nTTMR": {
+        "label": "Máquinas Agrícolas",
+        "url": "/maquinas-agricolas",
+        "widths": {
+          "17_5": {
+            "-": [
+              "25"
+            ],
+            "_placeholder": true
+          }
+        }
+      },
+      "-OyjXvtXxniyFQv_kgP5": {
+        "label": "Scooter e outros",
+        "url": "/scooter-e-outros",
+        "widths": {
+          "205": {
+            "50": [
+              "10"
+            ]
+          },
+          "215": {
+            "40": [
+              "12"
+            ]
+          },
+          "225": {
+            "40": [
+              "10"
+            ]
+          }
+        }
+      },
+      "-OyjXx425GB4Rwgz2KYi": {
+        "label": "Cortador de grama",
+        "url": "/cortador-de-grama",
+        "widths": {
+          "15": {
+            "-": [
+              ""
+            ],
+            "6_00": [
+              "6"
+            ]
+          },
+          "16": {
+            "6_50": [
+              "8"
+            ]
+          },
+          "18": {
+            "8_50": [
+              "8"
+            ],
+            "9_50": [
+              "8"
+            ]
+          },
+          "20": {
+            "10_00": [
+              "8"
+            ]
+          }
+        }
+      },
+      "-OyjXyJ9_8W_OOZtA5Hc": {
+        "label": "Quadriciclo",
+        "url": "/quadriciclo",
+        "widths": {
+          "18": {
+            "9_50": [
+              "8"
+            ]
+          },
+          "21": {
+            "7": [
+              "10"
+            ]
+          },
+          "24": {
+            "8": [
+              "12"
+            ],
+            "10": [
+              "11"
+            ]
+          }
+        }
+      }
+    },
+    "maps": {
+      "width": {
+        "-OyZzorm4ZHZDC6n0ATh": {
+          "catID": "292017",
+          "label": "185",
+          "order": 2
+        },
+        "-Oy_9TyWeyP4stDIKRx5": {
+          "catID": "291646",
+          "label": "195",
+          "order": 3
+        },
+        "-Oy_9s--Vp07h27lwWHh": {
+          "catID": "292009",
+          "label": "175",
+          "order": 1
+        },
+        "-Oy_AAlkWNvHypXJ2wDo": {
+          "catID": "291946",
+          "label": "165",
+          "order": 0
+        },
+        "-Oy_AI8rXkqGdySQEt3I": {
+          "catID": "292932",
+          "label": "215",
+          "order": 5
+        },
+        "-Oy_AL9zLm7C6b1x_8xY": {
+          "catID": "292258",
+          "label": "205",
+          "order": 4
+        },
+        "-Oy_AP8VhJxvqhZ4-bnL": {
+          "catID": "292931",
+          "label": "225",
+          "order": 6
+        },
+        "-Oy_CQT6LPESZoWdgIfd": {
+          "catID": "292648",
+          "label": "265",
+          "order": 10
+        },
+        "-Oy_CzNrzdGfcamnlKAB": {
+          "catID": "292900",
+          "label": "245",
+          "order": 8
+        },
+        "-Oy_D9Eagyyo1OnS7lxM": {
+          "catID": "292259",
+          "label": "235",
+          "order": 7
+        },
+        "-Oy_EuiyncUd9kYT21du": {
+          "catID": "292650",
+          "label": "255",
+          "order": 9
+        },
+        "-Oy_FD-qnPFE8-272IGR": {
+          "catID": "292646",
+          "label": "275",
+          "order": 11
+        },
+        "-Oy_FNL5dvjuVAXGVwZH": {
+          "catID": "292645",
+          "label": "315",
+          "order": 13
+        },
+        "-Oy_KKonl3JL01dIUota": {
+          "catID": "293226",
+          "label": "30",
+          "order": 23
+        },
+        "-Oy_KRHgrftVmNkThLN-": {
+          "catID": "293057",
+          "label": "31",
+          "order": 24
+        },
+        "-Oy_KWpZpe3H2lKBlIOB": {
+          "catID": "293274",
+          "label": "33",
+          "order": 25
+        },
+        "-Oy_KZKR-KqzOBELUezN": {
+          "catID": "293275",
+          "label": "35",
+          "order": 26
+        },
+        "-Oy_KaNQEVNrhL9IP7ho": {
+          "catID": "293276",
+          "label": "37",
+          "order": 27
+        },
+        "-Oy_L1-ZlDgdWeMXVyzC": {
+          "catID": "294071",
+          "label": "7.50",
+          "order": 28
+        },
+        "-Oy_L4Mft8i3NmZ0NUsm": {
+          "catID": "294078",
+          "label": "9.00",
+          "order": 29
+        },
+        "-Oy_L8RQ3C4iBFqY1BrO": {
+          "catID": "292647",
+          "label": "295",
+          "order": 12
+        },
+        "-OyeM-6BfuZmfcmNVGll": {
+          "catID": "312162",
+          "label": "18",
+          "order": 19
+        },
+        "-OyeM10o4-9qRpiVCNMq": {
+          "catID": "317456",
+          "label": "16",
+          "order": 18
+        },
+        "-OyeM2tgHuf1gsyb_Epg": {
+          "catID": "317457",
+          "label": "21",
+          "order": 21
+        },
+        "-OyeM4fw5trWZyRvGIUq": {
+          "catID": "317458",
+          "label": "24",
+          "order": 22
+        },
+        "-OyeMX_fh7qx27yrEtCj": {
+          "catID": "311173",
+          "label": "15",
+          "order": 17
+        },
+        "-OyeMbtv2SA-o5SQ5TiI": {
+          "catID": "294092",
+          "label": "17.5",
+          "order": 30
+        },
+        "-OyeMgjfDK-f_q97vZgo": {
+          "catID": "319901",
+          "label": "20",
+          "order": 20
+        },
+        "-OyeMmFnbHJ46v2zl1pQ": {
+          "catID": "294075",
+          "label": "6.00",
+          "order": 14
+        },
+        "-OyeMnHA-FejtKpY48Yn": {
+          "catID": "320113",
+          "label": "10",
+          "order": 16
+        },
+        "-OyeMsVAekqPOVNuQeUd": {
+          "catID": "294077",
+          "label": "6.50",
+          "order": 15
+        }
+      },
+      "profile": {
+        "-Oy_9qikSMjBoL75YcMT": {
+          "catID": "292268",
+          "label": "55",
+          "order": 5
+        },
+        "-Oy_9sp-KInxuRFTmKmF": {
+          "catID": "292897",
+          "label": "65",
+          "order": 7
+        },
+        "-Oy_9ujFrlbFmeLPk64u": {
+          "catID": "292269",
+          "label": "60",
+          "order": 6
+        },
+        "-Oy_A44kkxpJAaLNFrYm": {
+          "catID": "291947",
+          "label": "70",
+          "order": 8
+        },
+        "-Oy_ABPXAYXrR9fEO02k": {
+          "catID": "291648",
+          "label": "40",
+          "order": 2
+        },
+        "-Oy_AFsV8FFwDowb5-hA": {
+          "catID": "307678",
+          "label": "80",
+          "order": 10
+        },
+        "-Oy_AIlUxVWvs4Kzgb_9": {
+          "catID": "292654",
+          "label": "45",
+          "order": 3
+        },
+        "-Oy_AQ3ji86s3eUDUqPN": {
+          "catID": "292653",
+          "label": "50",
+          "order": 4
+        },
+        "-Oy_Aj1j-IWpf8jAzlTp": {
+          "catID": "320129",
+          "label": "30",
+          "order": 0
+        },
+        "-Oy_FNaphWj2urqg2hNF": {
+          "catID": "292896",
+          "label": "35",
+          "order": 1
+        },
+        "-Oy_FaXTd4KXXu1GU3xy": {
+          "catID": "292260",
+          "label": "75",
+          "order": 9
+        },
+        "-Oy_KM_QvGolmUUDTDU8": {
+          "catID": "293227",
+          "label": "9.5",
+          "order": 17
+        },
+        "-Oy_KRmgYoRGuCV7oHGM": {
+          "catID": "293058",
+          "label": "10.5",
+          "order": 21
+        },
+        "-Oy_KXERf94Jq8_ieVjW": {
+          "catID": "293277",
+          "label": "12.5",
+          "order": 22
+        },
+        "-OyeM1VweWnPrj1mCwxF": {
+          "catID": "317459",
+          "label": "6.50",
+          "order": 12
+        },
+        "-OyeM3J7QuZOg3M6k6oO": {
+          "catID": "317461",
+          "label": "7",
+          "order": 13
+        },
+        "-OyeM4y3lm5GWYbvMDQG": {
+          "catID": "317460",
+          "label": "8",
+          "order": 14
+        },
+        "-OyeMWgwjvlTBySqZ7Zw": {
+          "catID": "319896",
+          "label": "10",
+          "order": 19
+        },
+        "-OyeMY4BLNWgEPAMBuTH": {
+          "catID": "311174",
+          "label": "6.00",
+          "order": 11
+        },
+        "-OyeM_rBbdsjw8r7eEgT": {
+          "catID": "317467",
+          "label": "8.50",
+          "order": 15
+        },
+        "-OyeMh8AoVYt95Yy9D33": {
+          "catID": "322743",
+          "label": "10.00",
+          "order": 20
+        },
+        "-OyjYDfe3whsOTYJUNvi": {
+          "catID": "293227",
+          "label": "9.50",
+          "order": 18
+        }
+      },
+      "rim": {
+        "-Oy_9r6Vt6omvIdtmMj4": {
+          "catID": "292261",
+          "label": "15",
+          "order": 8
+        },
+        "-Oy_A0xznmpkev0l21fn": {
+          "catID": "292264",
+          "label": "14",
+          "order": 7
+        },
+        "-Oy_A4njKXAUK7M0_wuc": {
+          "catID": "291948",
+          "label": "13",
+          "order": 6
+        },
+        "-Oy_A9LULq6I5rU_t3Xl": {
+          "catID": "292266",
+          "label": "16",
+          "order": 9
+        },
+        "-Oy_ABcN5-tXUPThI_qs": {
+          "catID": "291647",
+          "label": "17",
+          "order": 11
+        },
+        "-Oy_AjLj1WGIynBcSJu8": {
+          "catID": "292267",
+          "label": "20",
+          "order": 15
+        },
+        "-Oy_Ccla0SqYnnZIK9qA": {
+          "catID": "292263",
+          "label": "18",
+          "order": 13
+        },
+        "-Oy_EruT-FVy6rcVnsVE": {
+          "catID": "292265",
+          "label": "19",
+          "order": 14
+        },
+        "-Oy_K8uffR4XfnRtGzzg": {
+          "catID": "307636",
+          "label": "17.5",
+          "order": 12
+        },
+        "-Oy_L9qvNrYfXjDJ4dlZ": {
+          "catID": "293875",
+          "label": "22.5",
+          "order": 16
+        },
+        "-OyeM-xLs05piZbLtoS0": {
+          "catID": "312163",
+          "label": "8",
+          "order": 1
+        },
+        "-OyeM3ZvbFWgIAt2qzCP": {
+          "catID": "317462",
+          "label": "10",
+          "order": 3
+        },
+        "-OyeM5E2EGS8vEs8_kS7": {
+          "catID": "317463",
+          "label": "12",
+          "order": 5
+        },
+        "-OyeMWv2G7x-issQZfPe": {
+          "catID": "319895",
+          "label": "11",
+          "order": 4
+        },
+        "-OyeMYGvKvQanNAMJKLW": {
+          "catID": "311172",
+          "label": "6",
+          "order": 0
+        },
+        "-OyeMdmQ7M5KxjNxDr6L": {
+          "catID": "293876",
+          "label": "25",
+          "order": 17
+        },
+        "-OyeMql3FqdRTUIBmzTh": {
+          "catID": "320114",
+          "label": "16.5",
+          "order": 10
+        },
+        "-OytLLExOWeyOpDankUx": {
+          "catID": "319120",
+          "label": "9",
+          "order": 2
+        }
+      }
+    }
+  }
+}
