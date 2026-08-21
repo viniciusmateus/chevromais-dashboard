@@ -1,11 +1,14 @@
-import fs from "fs";
-import path from "path";
-import PizZip from "pizzip";
-import Docxtemplater from "docxtemplater";
-import libre from "libreoffice-convert";
+import fs from 'fs';
+import path from 'path';
+import PizZip from 'pizzip';
+import Docxtemplater from 'docxtemplater';
+import libre from 'libreoffice-convert';
 
-if (process.platform === "win32") {
-	process.env.SOFFICE_PATH = "C:\\Program Files\\LibreOffice\\program\\soffice.exe";
+// Define o caminho do SOFFICE para Windows (local) ou Linux (App Hosting)
+if (process.platform === 'win32') {
+    process.env.SOFFICE_PATH = 'C:\\Program Files\\LibreOffice\\program\\soffice.exe';
+} else {
+    process.env.SOFFICE_PATH = '/usr/bin/soffice';
 }
 
 const objectionsMap = {
