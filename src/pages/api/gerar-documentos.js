@@ -9,23 +9,17 @@ import { execSync } from 'child_process';
 // CONFIGURAÇÃO DOS CABEÇALHOS CORS
 // -----------------------------------------------------------------------------
 const corsHeaders = {
-    "Access-Control-Allow-Origin": "*", // O asterisco libera para qualquer site (incluindo seu localhost).
+    "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
 };
 
-// -----------------------------------------------------------------------------
-// ROTA OPTIONS (PREFLIGHT) - Necessário para o navegador liberar o CORS
-// -----------------------------------------------------------------------------
 export const OPTIONS = async () => {
-    return new Response(null, {
-        status: 204,
-        headers: corsHeaders
-    });
+    return new Response(null, { status: 204, headers: corsHeaders });
 };
 
 // -----------------------------------------------------------------------------
-// 1. RASTREADOR DO LIBREOFFICE (LOG AVANÇADO)
+// 1. RASTREADOR DO LIBREOFFICE
 // -----------------------------------------------------------------------------
 function setupLibreOfficePath() {
     let finalPath = null;
@@ -47,10 +41,8 @@ function setupLibreOfficePath() {
         for (const p of possiblePaths) {
             if (fs.existsSync(p)) {
                 finalPath = p;
-                logs.push(`[LINUX] Encontrado via fs.existsSync no caminho: ${p}`);
+                logs.push(`[LINUX] Encontrado via fs.existsSync: ${p}`);
                 break;
-            } else {
-                logs.push(`[LINUX] Não encontrado em: ${p}`);
             }
         }
 
@@ -70,7 +62,7 @@ function setupLibreOfficePath() {
     if (finalPath) {
         process.env.SOFFICE_PATH = finalPath;
     } else {
-        logs.push(`[ERRO CRÍTICO] O LibreOffice não foi encontrado no contêiner! O App Hosting provavelmnete ignorou o Dockerfile.`);
+        logs.push(`[ERRO CRÍTICO] LibreOffice não encontrado.`);
     }
 
     return { path: finalPath, logs };
@@ -121,106 +113,105 @@ export const POST = async ({ request }) => {
         const data = await request.json();
         
         if (!sysCheck.path) {
-            throw new Error("LibreOffice não está instalado neste ambiente. Verifique o deploy do Dockerfile.");
+            throw new Error("LibreOffice não está instalado neste ambiente.");
         }
 
         const today = new Date();
         const monthNames = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
         const todayFormatted = `${today.getDate()} de ${monthNames[today.getMonth()]} de ${today.getFullYear()}`;
 
-        const companyName = companyNamesMap[data.empresa] || data.empresa;
-        const disputeNumberFormatted = data.disputeNumber 
-    ? String(data.disputeNumber).replace(/\//g, "-") 
-    : "";
+        const companyName = companyNamesMap[data.empresa] || data.empresa || "Empresa Não Informada";
+        
+        // Correção aplicada: conversão segura para string antes do replace
+        const disputeNumberFormatted = data.numeroEdital 
+            ? String(data.numeroEdital).replace(/\//g, "-") 
+            : "";
 
+        // Formatação do Prazo de Entrega
         let deliveryStipulateFormat = "";
-        if (data.details.delivery.deliveryUnit === "Imediata") {
+        if (data.prazoEntrega?.unidade === "Imediata") {
             deliveryStipulateFormat = "IMEDIATA";
-        } else {
-            const val = parseInt(data.details.delivery.deliveryStipulate, 10) || 0;
+        } else if (data.prazoEntrega?.prazo) {
+            const val = parseInt(data.prazoEntrega.prazo, 10) || 0;
             const plural = val === 1 ? "" : "S";
             const prefix = val < 10 ? `0${val}` : `${val}`;
-            const unit = data.details.delivery.deliveryUnit === "Horas" ? "HORA" : "DIA";
+            const unit = data.prazoEntrega.unidade === "Horas" ? "HORA" : "DIA";
             deliveryStipulateFormat = `${prefix} ${unit}${plural}`;
         }
 
-        const selectedEnceSpecs = [];
-        if (data.details.ence.enceSpecs.traction) selectedEnceSpecs.push("ADERÊNCIA");
-        if (data.details.ence.enceSpecs.resistance) selectedEnceSpecs.push("RESISTÊNCIA");
-        
-        const selectedEnceLabels = Object.keys(data.details.ence.enceGrades).filter(key => data.details.ence.enceGrades[key]);
-        const enceLabelFormat = selectedEnceLabels.length > 0 
-            ? (selectedEnceLabels.length === 1 ? selectedEnceLabels[0] : selectedEnceLabels.slice(0, -1).join(", ") + " e " + selectedEnceLabels[selectedEnceLabels.length - 1]) 
+        // Formatação do ENCE
+        const enceSpecsArray = data.ence?.especificacoes || [];
+        const enceLabelsArray = data.ence?.classificacoes || [];
+        const enceLabelFormat = enceLabelsArray.length > 0 
+            ? (enceLabelsArray.length === 1 ? enceLabelsArray[0] : enceLabelsArray.slice(0, -1).join(", ") + " e " + enceLabelsArray[enceLabelsArray.length - 1]) 
             : "";
 
-        const selectedKeys = Object.keys(data.objections).filter(key => data.objections[key]);
-        processLogs.push(`2. Disparando processamento em paralelo para ${selectedKeys.length} arquivo(s)...`);
+        // O Frontend agora envia uma impugnação por vez
+        const objectionKey = data.objection;
+        if (!objectionKey) {
+            throw new Error("Nenhuma chave de impugnação ('objection') foi enviada no payload.");
+        }
 
-        const promessasDeConversao = selectedKeys.map(async (objection) => {
-            const templateFileName = `${data.empresa}-${objection}.docx`;
-            const templatePath = path.join(process.cwd(), 'public', 'templates', templateFileName);
+        processLogs.push(`2. Processando documento: ${objectionKey}`);
 
-            if (!fs.existsSync(templatePath)) {
-                processLogs.push(`[AVISO] Template ausente: ${templatePath}`);
-                return null; 
-            }
+        const templateFileName = `${data.empresa}-${objectionKey}.docx`;
+        const templatePath = path.join(process.cwd(), 'public', 'templates', templateFileName);
 
-            processLogs.push(`› Preenchendo template: ${templateFileName}`);
-            const content = fs.readFileSync(templatePath, 'binary');
-            const zip = new PizZip(content);
-            const doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
+        if (!fs.existsSync(templatePath)) {
+            throw new Error(`Template ausente no servidor: ${templateFileName}`);
+        }
 
-            doc.render({
-                company: companyName,
-                disputeNumber: data.disputeNumber,
-                disputeDate: data.disputeDate,
-                cityUF: data.cityUF,
-                buyer: data.buyer,
-                deliveryStipulate: deliveryStipulateFormat,
-                sampleObject: data.details.sample.sampleObject,
-                sampleClause: data.details.sample.sampleClause,
-                serviceType: data.details.service.serviceType,
-                serviceObject: data.details.service.serviceObject,
-                restrictionClause: data.details.restriction.restrictionClause,
-                enceSpec: selectedEnceSpecs.join(" e "),
-                enceLabel: enceLabelFormat,
-                todayFormatted: todayFormatted,
-            });
+        processLogs.push(`› Preenchendo template: ${templateFileName}`);
+        const content = fs.readFileSync(templatePath, 'binary');
+        const zip = new PizZip(content);
+        const doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
 
-            const docxBuffer = doc.getZip().generate({ type: "nodebuffer", compression: "DEFLATE" });
-
-            processLogs.push(`› Convertendo para PDF: ${templateFileName}`);
-            
-            let pdfBuffer;
-            try {
-                pdfBuffer = await convertToPdf(docxBuffer);
-            } catch (convErr) {
-                processLogs.push(`[ERRO NA CONVERSÃO de ${templateFileName}]: ${convErr.message}`);
-                throw convErr;
-            }
-
-            const filenameBase = `Impugnação ${objectionsMap[objection]} ${companyName} ${disputeNumberFormatted}`;
-
-            return {
-                objectionKey: objection,
-                objectionName: objectionsMap[objection],
-                pdfFilename: `${filenameBase}.pdf`,
-                pdfBase64: pdfBuffer.toString('base64'),
-            };
+        // Mapeando dados do novo formato JSON do frontend
+        doc.render({
+            company: companyName,
+            disputeNumber: data.numeroEdital || "",
+            disputeDate: data.dataEdital || "",
+            cityUF: data.municipioUF || "",
+            buyer: data.orgao || "",
+            deliveryStipulate: deliveryStipulateFormat,
+            sampleObject: data.amostra?.objeto || "",
+            sampleClause: data.amostra?.clausulas || "",
+            serviceType: data.servicoMontagem?.tiposServico || "",
+            serviceObject: data.servicoMontagem?.objetoServico || "",
+            restrictionClause: data.restricaoRegional?.clausulas || "",
+            enceSpec: enceSpecsArray.join(" e "),
+            enceLabel: enceLabelFormat,
+            todayFormatted: todayFormatted,
         });
 
-        const results = await Promise.all(promessasDeConversao);
-        const generatedFiles = results.filter(Boolean);
+        const docxBuffer = doc.getZip().generate({ type: "nodebuffer", compression: "DEFLATE" });
 
-        processLogs.push("3. Todos os PDFs foram gerados simultaneamente!");
+        processLogs.push(`› Convertendo para PDF...`);
+        let pdfBuffer;
+        try {
+            pdfBuffer = await convertToPdf(docxBuffer);
+        } catch (convErr) {
+            throw new Error(`Falha na conversão do LibreOffice: ${convErr.message}`);
+        }
+
+        const filenameBase = `Impugnação ${objectionsMap[objectionKey] || objectionKey} ${companyName} ${disputeNumberFormatted}`;
+
+        const fileResult = {
+            objectionKey: objectionKey,
+            objectionName: objectionsMap[objectionKey] || objectionKey,
+            pdfFilename: `${filenameBase}.pdf`.trim(),
+            pdfBase64: pdfBuffer.toString('base64'),
+        };
+
+        processLogs.push("3. PDF gerado com sucesso!");
         console.log(processLogs.join('\n'));
 
-        // Adicionando os headers CORS no sucesso
-        return new Response(JSON.stringify({ success: true, files: generatedFiles }), {
+        // Retornando objeto único (o frontend espera result.file.pdfBase64)
+        return new Response(JSON.stringify({ success: true, file: fileResult }), {
             status: 200,
             headers: { 
                 "Content-Type": "application/json",
-                ...corsHeaders // <--- CORS Aqui
+                ...corsHeaders
             }
         });
 
@@ -228,7 +219,6 @@ export const POST = async ({ request }) => {
         processLogs.push(`[ERRO FATAL]: ${error.message}`);
         console.error("ERRO FATAL NO BACKEND:\n", processLogs.join('\n'));
         
-        // Adicionando os headers CORS no erro
         return new Response(JSON.stringify({ 
             success: false, 
             error: error.message,
@@ -237,7 +227,7 @@ export const POST = async ({ request }) => {
             status: 500,
             headers: { 
                 "Content-Type": "application/json",
-                ...corsHeaders // <--- CORS Aqui também
+                ...corsHeaders
             }
         });
     }
