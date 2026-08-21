@@ -1,8 +1,8 @@
 ---
 // BaseLayout.astro
-import "../styles/global.css";
-import Footer from "../components/Base/Footer.astro";
-import Navigation from "../components/Base/Navigation.astro";
+import "@/styles/global.css";
+import Footer from "@/components/Base/Footer.astro";
+import Navigation from "@/components/Base/Navigation";
 ---
 
 <html lang="pt-BR">
@@ -13,14 +13,14 @@ import Navigation from "../components/Base/Navigation.astro";
     <meta name="generator" content={Astro.generator} />
     <title>Chevromais Dashboard</title>
   </head>
-  <body class="bg-black/30">
+  <body class="bg-zinc-800">
       <div class="flex">
         <div class="flex-none">
           <Navigation />
         </div>
 
         <main class="grow h-full ml-[56px]">
-          <section class="bg-slate-100 bg-gradient-to-t to-slate-200 shadow-lg">
+          <section class="bg-zinc-950 shadow-lg">
             <slot />
           </section>
           <Footer />
