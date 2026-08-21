@@ -129,7 +129,9 @@ export const POST = async ({ request }) => {
         const todayFormatted = `${today.getDate()} de ${monthNames[today.getMonth()]} de ${today.getFullYear()}`;
 
         const companyName = companyNamesMap[data.empresa] || data.empresa;
-        const disputeNumberFormatted = data.disputeNumber.replace(/\//g, "-");
+        const disputeNumberFormatted = data.disputeNumber 
+    ? String(data.disputeNumber).replace(/\//g, "-") 
+    : "";
 
         let deliveryStipulateFormat = "";
         if (data.details.delivery.deliveryUnit === "Imediata") {

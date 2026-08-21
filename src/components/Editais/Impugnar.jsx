@@ -1,7 +1,25 @@
 import React, { useState } from "react";
 
 // Aqui vai APENAS a URL limpa da sua nova API no Cloud Run
-const CLOUD_RUN_API_URL = "https://pdfconverter-931850146140.southamerica-east1.run.app/api/gerar-documentos"; 
+const CLOUD_RUN_API_URL = "https://pdfconverter-931850146140.southamerica-east1.run.app/api/gerar-documentos";
+
+const companyOptions = [
+    { id: "chevromais", label: "Chevromais" },
+    { id: "autoluk", label: "Autoluk" },
+    { id: "lukauto", label: "Lukauto" },
+    { id: "curitibaPneus", label: "Curitiba Pneus" },
+];
+
+const objectionOptions = [
+    { id: "delivery", label: "Prazo de Entrega" },
+    { id: "sample", label: "Amostra" },
+    { id: "ence", label: "ENCE" },
+    { id: "service", label: "Serviço / Montagem" },
+    { id: "manufacturing", label: "Fabricação Nacional" },
+    { id: "abrafati", label: "ABRAFATI" },
+    { id: "abipti", label: "ABIPTI" },
+    { id: "restriction", label: "Restrição Regional" },
+];
 
 export default function Impugnar() {
     // --- Estados Gerais ---
@@ -208,24 +226,6 @@ export default function Impugnar() {
     const totalItems = Object.keys(itemStatuses).length;
     const completedItems = Object.values(itemStatuses).filter((item) => item.status === "success" || item.status === "error").length;
     const progressPercentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
-
-    const companyOptions = [
-        { id: "chevromais", label: "Chevromais" },
-        { id: "autoluk", label: "Autoluk" },
-        { id: "lukauto", label: "Lukauto" },
-        { id: "curitibaPneus", label: "Curitiba Pneus" },
-    ];
-
-    const objectionOptions = [
-        { id: "delivery", label: "Prazo de Entrega" },
-        { id: "sample", label: "Amostra" },
-        { id: "ence", label: "ENCE" },
-        { id: "service", label: "Serviço / Montagem" },
-        { id: "manufacturing", label: "Fabricação Nacional" },
-        { id: "abrafati", label: "ABRAFATI" },
-        { id: "abipti", label: "ABIPTI" },
-        { id: "restriction", label: "Restrição Regional" },
-    ];
 
     const inputStyle = "p-2.5 border border-zinc-800 rounded-lg bg-zinc-900 text-zinc-200 text-sm focus:outline-none focus:border-lime-400 focus:ring-1 focus:ring-lime-400 font-medium w-full placeholder-zinc-600 transition-all";
     const labelStyle = "text-zinc-400 text-xs font-semibold uppercase tracking-wider mb-1.5 block select-none";
