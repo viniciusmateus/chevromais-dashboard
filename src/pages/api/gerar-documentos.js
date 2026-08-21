@@ -6,6 +6,25 @@ import libre from 'libreoffice-convert';
 import { execSync } from 'child_process';
 
 // -----------------------------------------------------------------------------
+// CONFIGURAÇÃO DOS CABEÇALHOS CORS
+// -----------------------------------------------------------------------------
+const corsHeaders = {
+    "Access-Control-Allow-Origin": "*", // O asterisco libera para qualquer site (incluindo seu localhost).
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+};
+
+// -----------------------------------------------------------------------------
+// ROTA OPTIONS (PREFLIGHT) - Necessário para o navegador liberar o CORS
+// -----------------------------------------------------------------------------
+export const OPTIONS = async () => {
+    return new Response(null, {
+        status: 204,
+        headers: corsHeaders
+    });
+};
+
+// -----------------------------------------------------------------------------
 // 1. RASTREADOR DO LIBREOFFICE (LOG AVANÇADO)
 // -----------------------------------------------------------------------------
 function setupLibreOfficePath() {
@@ -18,7 +37,6 @@ function setupLibreOfficePath() {
         finalPath = 'C:\\Program Files\\LibreOffice\\program\\soffice.exe';
         logs.push(`[WINDOWS] Caminho definido como: ${finalPath}`);
     } else {
-        // Tenta encontrar nos caminhos mais comuns do Linux
         const possiblePaths = [
             '/usr/bin/soffice',
             '/usr/bin/libreoffice',
@@ -36,7 +54,6 @@ function setupLibreOfficePath() {
             }
         }
 
-        // Se não achou nas pastas padrões, tenta usar o comando nativo 'which'
         if (!finalPath) {
             try {
                 const whichPath = execSync('which soffice').toString().trim();
@@ -96,7 +113,6 @@ async function convertToPdf(docxBuffer) {
 // 3. ROTA DA API PRINCIPAL
 // -----------------------------------------------------------------------------
 export const POST = async ({ request }) => {
-    // Roda o rastreador toda vez que a rota é chamada
     const sysCheck = setupLibreOfficePath();
     const processLogs = [...sysCheck.logs];
 
@@ -104,7 +120,6 @@ export const POST = async ({ request }) => {
         processLogs.push("1. Recebendo dados do formulário...");
         const data = await request.json();
         
-        // Se o rastreador não achou o LibreOffice, aborta imediatamente para economizar tempo
         if (!sysCheck.path) {
             throw new Error("LibreOffice não está instalado neste ambiente. Verifique o deploy do Dockerfile.");
         }
@@ -174,7 +189,6 @@ export const POST = async ({ request }) => {
 
             processLogs.push(`› Convertendo para PDF: ${templateFileName}`);
             
-            // Tenta converter, se falhar, captura o erro específico do LibreOffice
             let pdfBuffer;
             try {
                 pdfBuffer = await convertToPdf(docxBuffer);
@@ -199,23 +213,30 @@ export const POST = async ({ request }) => {
         processLogs.push("3. Todos os PDFs foram gerados simultaneamente!");
         console.log(processLogs.join('\n'));
 
+        // Adicionando os headers CORS no sucesso
         return new Response(JSON.stringify({ success: true, files: generatedFiles }), {
             status: 200,
-            headers: { "Content-Type": "application/json" }
+            headers: { 
+                "Content-Type": "application/json",
+                ...corsHeaders // <--- CORS Aqui
+            }
         });
 
     } catch (error) {
         processLogs.push(`[ERRO FATAL]: ${error.message}`);
         console.error("ERRO FATAL NO BACKEND:\n", processLogs.join('\n'));
         
-        // Retorna todos os logs para o frontend, assim você consegue ler na aba 'Network' ou no 'Alert'
+        // Adicionando os headers CORS no erro
         return new Response(JSON.stringify({ 
             success: false, 
             error: error.message,
-            debug_logs: processLogs // Aqui enviamos o log completo de volta para você ler
+            debug_logs: processLogs 
         }), {
             status: 500,
-            headers: { "Content-Type": "application/json" }
+            headers: { 
+                "Content-Type": "application/json",
+                ...corsHeaders // <--- CORS Aqui também
+            }
         });
     }
 };
