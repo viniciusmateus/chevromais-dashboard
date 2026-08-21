@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Aqui vai APENAS a URL limpa da sua nova API no Cloud Run
-const CLOUD_RUN_API_URL = "https://pdfconverter-931850146140.southamerica-east1.run.app"; 
+const CLOUD_RUN_API_URL = "https://pdfconverter-931850146140.southamerica-east1.run.app/api/gerar-documentos"; 
 
 export default function Impugnar() {
     // --- Estados Gerais ---
