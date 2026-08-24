@@ -2,8 +2,7 @@ import fs from "fs";
 import path from "path";
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
-import libre from "libreoffice-convert";
-import { execSync } from "child_process";
+import { execSync, exec } from "child_process";
 
 // -----------------------------------------------------------------------------
 // CONFIGURAÇÃO DOS CABEÇALHOS CORS
@@ -84,15 +83,52 @@ const companyNamesMap = {
 	curitibaPneus: "Curitiba Pneus",
 };
 
-async function convertToPdf(docxBuffer) {
-	if (libre.convertAsync) {
-		return await libre.convertAsync(docxBuffer, ".pdf", undefined);
-	}
-	return await new Promise((resolve, reject) => {
-		libre.convert(docxBuffer, ".pdf", undefined, (err, done) => {
-			if (err) reject(err);
-			else resolve(done);
-		});
+/**
+ * Converte DOCX para PDF utilizando isolamento de perfil no LibreOffice,
+ * prevenindo conflitos entre conversões simultâneas.
+ */
+async function convertToPdf(docxBuffer, sofficePath) {
+	return new Promise((resolve, reject) => {
+		const uniqueId = `${Date.now()}_${Math.floor(Math.random() * 1000000)}`;
+		const tmpDir = path.join("/tmp", `doc_conv_${uniqueId}`);
+		const userProfileDir = path.join("/tmp", `soffice_profile_${uniqueId}`);
+
+		try {
+			fs.mkdirSync(tmpDir, { recursive: true });
+			fs.mkdirSync(userProfileDir, { recursive: true });
+
+			const inputDocxPath = path.join(tmpDir, "input.docx");
+			const outputPdfPath = path.join(tmpDir, "input.pdf");
+
+			fs.writeFileSync(inputDocxPath, docxBuffer);
+
+			// Argumento -env:UserInstallation força o LibreOffice a rodar isolado em cada requisição
+			const cmd = `"${sofficePath}" -env:UserInstallation=file://${userProfileDir} --headless --convert-to pdf --outdir "${tmpDir}" "${inputDocxPath}"`;
+
+			exec(cmd, (error, stdout, stderr) => {
+				try {
+					if (error) {
+						return reject(new Error(`Erro na execução do LibreOffice: ${error.message} - ${stderr}`));
+					}
+
+					if (!fs.existsSync(outputPdfPath)) {
+						return reject(new Error(`PDF não gerado pelo LibreOffice. Stderr: ${stderr}`));
+					}
+
+					const pdfBuffer = fs.readFileSync(outputPdfPath);
+
+					// Limpeza dos diretórios temporários criados
+					fs.rmSync(tmpDir, { recursive: true, force: true });
+					fs.rmSync(userProfileDir, { recursive: true, force: true });
+
+					resolve(pdfBuffer);
+				} catch (cleanupErr) {
+					reject(cleanupErr);
+				}
+			});
+		} catch (err) {
+			reject(err);
+		}
 	});
 }
 
@@ -117,10 +153,8 @@ export const POST = async ({ request }) => {
 
 		const companyName = companyNamesMap[data.empresa] || data.empresa || "Empresa Não Informada";
 
-		// Correção aplicada: conversão segura para string antes do replace
 		const disputeNumberFormatted = data.numeroEdital ? String(data.numeroEdital).replace(/\//g, "-") : "";
 
-		// Formatação do Prazo de Entrega
 		let deliveryStipulateFormat = "";
 		if (data.prazoEntrega?.unidade === "Imediata") {
 			deliveryStipulateFormat = "IMEDIATA";
@@ -132,12 +166,10 @@ export const POST = async ({ request }) => {
 			deliveryStipulateFormat = `${prefix} ${unit}${plural}`;
 		}
 
-		// Formatação do ENCE
 		const enceSpecsArray = data.ence?.especificacoes || [];
 		const enceLabelsArray = data.ence?.classificacoes || [];
 		const enceLabelFormat = enceLabelsArray.length > 0 ? (enceLabelsArray.length === 1 ? enceLabelsArray[0] : enceLabelsArray.slice(0, -1).join(", ") + " e " + enceLabelsArray[enceLabelsArray.length - 1]) : "";
 
-		// O Frontend agora envia uma impugnação por vez
 		const objectionKey = data.objection;
 		if (!objectionKey) {
 			throw new Error("Nenhuma chave de impugnação ('objection') foi enviada no payload.");
@@ -157,7 +189,6 @@ export const POST = async ({ request }) => {
 		const zip = new PizZip(content);
 		const doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
 
-		// Mapeando dados do novo formato JSON do frontend
 		doc.render({
 			company: companyName,
 			disputeNumber: data.numeroEdital || "",
@@ -177,10 +208,10 @@ export const POST = async ({ request }) => {
 
 		const docxBuffer = doc.getZip().generate({ type: "nodebuffer", compression: "DEFLATE" });
 
-		processLogs.push(`› Convertendo para PDF...`);
+		processLogs.push(`› Convertendo para PDF com perfil de processo isolado...`);
 		let pdfBuffer;
 		try {
-			pdfBuffer = await convertToPdf(docxBuffer);
+			pdfBuffer = await convertToPdf(docxBuffer, sysCheck.path);
 		} catch (convErr) {
 			throw new Error(`Falha na conversão do LibreOffice: ${convErr.message}`);
 		}
@@ -197,7 +228,6 @@ export const POST = async ({ request }) => {
 		processLogs.push("3. PDF gerado com sucesso!");
 		console.log(processLogs.join("\n"));
 
-		// Retornando objeto único (o frontend espera result.file.pdfBase64)
 		return new Response(JSON.stringify({ success: true, file: fileResult }), {
 			status: 200,
 			headers: {
