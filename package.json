@@ -21,6 +21,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.2.0",
     "@mui/material": "^9.2.0",
+    "@supabase/supabase-js": "^2.112.4",
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
@@ -31,7 +32,12 @@
     "express": "^5.2.1",
     "firebase": "^12.16.0",
     "gsap": "^3.15.0",
+    "imapflow": "^1.7.8",
+    "jspdf": "^4.2.1",
+    "jszip": "^3.10.1",
     "libreoffice-convert": "^1.8.2",
+    "mailparser": "^3.9.20",
+    "nodemailer": "^9.1.1",
     "pizzip": "^3.2.0",
     "rc-util": "^5.44.4",
     "react": "^19.2.8",
@@ -39,7 +45,8 @@
     "react-icons": "^5.7.0",
     "react-router-dom": "^7.11.0",
     "tailwindcss": "^4.3.3",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "zpl-image": "^0.3.0"
   },
   "allowScripts": {
     "esbuild@0.28.1": true,

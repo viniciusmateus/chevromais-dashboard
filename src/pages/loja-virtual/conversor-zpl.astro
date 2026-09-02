@@ -1,0 +1,9 @@
+---
+import BaseLayout from "@/Layouts/BaseLayout.astro";
+import PageTitle from "@/components/Base/PageTitle.astro";
+import ConversorZPL from "@/components/LojaVirtual/ConversorZPL";
+---
+<BaseLayout>
+    <PageTitle title="Conversor ZPL" />
+    <ConversorZPL client:load />
+  </BaseLayout>

@@ -56,24 +56,43 @@ export default function InputMargemCalculada() {
 	}, [rawMargin, rawCost]);
 
 	return (
-		<div className="flex gap-5 items-center">
+		<div className="flex gap-4 items-center w-full">
 			{/* Margem (%) */}
 			<div className="space-y-1 w-full justify-center">
 				<div className="flex">
-					<input type="text" name="margin" id="margin" className="w-full border border-e-0 border-slate-400 p-1 px-2 text-xl rounded-l-lg focus:outline-none focus:border-slate-600 font-bold text-right" value={formatPercent(rawMargin)} onChange={handleMarginChange} maxLength={5} placeholder="00,00" />
-					<div className="border border-slate-600 bg-slate-500 rounded-r-lg text-white p-2 font-bold select-none">%</div>
+					<input
+						type="text"
+						name="margin"
+						id="margin"
+						className="w-full border border-e-0 border-zinc-700 bg-zinc-950 p-2 px-3 text-lg rounded-l-xl focus:outline-none focus:border-lime-400 font-mono font-bold text-right text-zinc-100"
+						value={formatPercent(rawMargin)}
+						onChange={handleMarginChange}
+						maxLength={5}
+						placeholder="00,00"
+					/>
+					<div className="border border-zinc-700 bg-zinc-800 rounded-r-xl text-lime-400 px-3 font-bold text-sm flex items-center select-none">
+						%
+					</div>
 				</div>
 			</div>
 
 			{/* Custo base */}
 			<div className="w-full justify-center">
 				<div className="flex">
-					<input type="text" name="baseValue" id="baseValue" className="w-full border border-slate-400 p-[.4rem] px-2 text-xl rounded-lg focus:outline-none focus:border-slate-600 font-bold text-right" value={rawCost} onChange={handleCostChange} placeholder="0,00" />
+					<input
+						type="text"
+						name="baseValue"
+						id="baseValue"
+						className="w-full border border-zinc-700 bg-zinc-950 p-2 px-3 text-lg rounded-xl focus:outline-none focus:border-lime-400 font-mono font-bold text-right text-zinc-100"
+						value={rawCost}
+						onChange={handleCostChange}
+						placeholder="0,00"
+					/>
 				</div>
 			</div>
 
 			{/* Resultado */}
-			<div className="p-[.5rem] w-full justify-center flex text-xl font-bold text-slate-800" id="singleResult">
+			<div className="p-2 w-full justify-center flex text-2xl font-mono font-extrabold text-lime-400" id="singleResult">
 				{valorCalculado}
 			</div>
 		</div>

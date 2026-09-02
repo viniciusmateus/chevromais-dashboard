@@ -2,17 +2,19 @@
 //cPanel.astro
 import PageTitle from "../../components/Base/PageTitle.astro";
 import BaseLayout from "../../Layouts/BaseLayout.astro";
-import DatabaseSnapshot from "../../components/cPanel/DatabaseSnapshot";
-import AddBrand from "../../components/cPanel/AddBrand";
-import AddModel from "../../components/cPanel/AddModel";
-import Modal from "../../components/cPanel/Modal";
-import ImportXlsx from "../../components/cPanel/ImportSheet.jsx";
+import BrandsModelsKanban from "@/components/Disputa/BrandsModelsKanban";
+// import DatabaseSnapshot from "../../components/cPanel/DatabaseSnapshot";
+// import AddBrand from "../../components/cPanel/AddBrand";
+// import AddModel from "../../components/cPanel/AddModel";
+// import Modal from "../../components/cPanel/Modal";
+// import ImportXlsx from "../../components/cPanel/ImportSheet.jsx";
 ---
 
 <BaseLayout>
 
   <PageTitle title="Marcas e Modelos" />
-  <div id="products-list" class="p-4 grid grid-cols-3 gap-3">
+  <BrandsModelsKanban client:load />
+  <!-- <div id="products-list" class="p-4 grid grid-cols-3 gap-3">
 
     <h3 class="uppercase font-bold col-span-3 border-b border-black/20">
       Listagem de produtos
@@ -37,6 +39,6 @@ import ImportXlsx from "../../components/cPanel/ImportSheet.jsx";
     <div class="w-full col-span-3">
       <DatabaseSnapshot client:load />
     </div>
-  </div>
+  </div> -->
 
 </BaseLayout>
