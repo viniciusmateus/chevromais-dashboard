@@ -1,0 +1,9 @@
+---
+import BaseLayout from "@/Layouts/BaseLayout.astro";
+import PageTitle from "@/components/Base/PageTitle.astro";
+import CategoryKanban from "@/components/LojaVirtual/CategoryKanban";
+---
+<BaseLayout>
+    <PageTitle title="Widget" />
+    <CategoryKanban client:load />
+  </BaseLayout>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .button-select-tyre {
+            padding: 10px;
+            width: 150px;
+            min-height: 60px;
+            font-size: 1.2rem;
+            border-radius: 20px;
+            border: 2px #afd136 solid;
+            cursor: pointer;
+            text-align: center;
+            background-color: transparent;
+            color: #afd136;
+            transition: 0.2s;
+            user-select: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button-select-tyre.active {
+            background-color: #afd136;
+            color: #1b2026;
+        }
+
+        select {
+            border: 2px #afd136 solid;
+            padding: 10px 20px;
+            font-weight: bold;
+            width: 100px;
+            background-color: #1b2026;
+            color: white;
+            font-size: 1.75rem;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("https://cdn.dooca.store/178626/files/arrow-down.svg");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 14px;
+            padding-right: 30px;
+        }
+
+        select:disabled {
+            opacity: 0.35;
+            border-color: #666;
+            background-image: none;
+        }
+
+        button#searchBtnCat,
+        button#searchBtnSimple {
+            padding: 17px 17px;
+            font-weight: bold;
+            border-radius: 10px;
+            border: none;
+            background: #afd136;
+            cursor: pointer;
+            color: #1b2026;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button#searchBtnCat:disabled,
+        button#searchBtnSimple:disabled {
+            opacity: 0.35;
+            background-color: #666;
+            cursor: not-allowed;
+        }
+
+        .section-title.has-title.search-title:after {
+            background: #afd136;
+        }
+
+        .d-flex.justify-content-center.filters-container div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .search-sections {
+            background-color: #1b2026;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            background-color: #1b2026;
+            color: #ffffff;
+            padding: 40px;
+            width: 45%;
+            min-width: 350px;
+        }
+
+        @media (max-width: 767px) {
+            .search-sections {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .filters-container {
+                flex-direction: column !important;
+                align-items: center !important;
+            }
+
+            .filters-container>div {
+                width: 100%;
+                padding: 0px 20px;
+                text-align: center;
+            }
+
+            .filters-container>div>select {
+                width: 100%;
+                font-size: 2rem;
+                padding: 5px;
+                text-align: center;
+            }
+
+            button#searchBtnCat,
+            button#searchBtnSimple {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+
+    <div class="search-sections">
+        <!-- Busca por categoria -->
+        <div class="search-box">
+            <div class="section-title row has-title search-title">
+                <div class="col-12 text-center">
+                    <h2 class="h1">Buscar por categoria</h2>
+                </div>
+            </div>
+
+            <div id="categories" class="d-flex justify-content-center flex-wrap" style="gap: 10px"></div>
+
+            <div class="d-flex justify-content-center filters-container" style="gap: 10px; margin-top: 20px">
+                <div>
+                    <span>Largura</span>
+                    <select id="widthCat" disabled>
+                        <option>-</option>
+                    </select>
+                </div>
+                <div>
+                    <span>Perfil</span>
+                    <select id="profileCat" disabled>
+                        <option>-</option>
+                    </select>
+                </div>
+                <div>
+                    <span>Aro</span>
+                    <select id="rimCat" disabled>
+                        <option>-</option>
+                    </select>
+                </div>
+                <div style="display: flex; align-items: center">
+                    <button id="searchBtnCat" disabled>
+                        S
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Busca direta por medida -->
+        <div class="search-box">
+            <div class="section-title row has-title search-title">
+                <div class="col-12 text-center">
+                    <h2 class="h1">Buscar pela medida</h2>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center filters-container" style="gap: 10px">
+                <div>
+                    <span>Largura</span>
+                    <select id="widthSimple">
+                        <option>-</option>
+                    </select>
+                </div>
+                <div>
+                    <span>Perfil</span>
+                    <select id="profileSimple" disabled>
+                        <option>-</option>
+                    </select>
+                </div>
+                <div>
+                    <span>Aro</span>    
+                    <select id="rimSimple" disabled>
+                        <option>-</option>
+                    </select>
+                </div>
+                <div style="display: flex; align-items: center">
+                    <button id="searchBtnSimple" disabled>
+                        S
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="tire-selection.js"></script>
+</body>
+
+</html>

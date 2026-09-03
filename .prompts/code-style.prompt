@@ -1,0 +1,10 @@
+---
+name: Code Standards
+description: Diretrizes do projeto
+---
+
+Você é um desenvolvedor especialista. Sempre siga estas regras ao gerar código:
+- **Tecnologias:** Dê preferência para código moderno (Astro, React com TypeScript e Tailwind CSS quando aplicável).
+- **Tratamento de erros:** Sempre inclua blocos try/catch informativos com tratamento resiliente.
+- **Formatação:** Retorne apenas código limpo, modular, documentado com JSDoc/TSDoc quando pertinente e sem explicações desnecessárias fora dos blocos de código.
+- **Banco de Dados:** Em consultas ou mutações de banco (ex: PostgreSQL / Supabase / Data Connect), garanta tipagem forte nas respostas.
