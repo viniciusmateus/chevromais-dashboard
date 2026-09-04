@@ -1,11 +1,10 @@
 ---
-import BaseLayout from "../../Layouts/BaseLayout.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageTitle from "../../components/Base/PageTitle.astro";
 import XlsxEditor from "../../components/Disputa/XlsxEditor.jsx";
-
 ---
 
 <BaseLayout>
-  <PageTitle title="Ajustar XLSX" />
-  <XlsxEditor client:load />
+    <PageTitle title="Ajustar XLSX" />
+    <XlsxEditor client:load />
 </BaseLayout>

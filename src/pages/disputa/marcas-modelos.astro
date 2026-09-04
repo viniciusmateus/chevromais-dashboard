@@ -1,7 +1,7 @@
 ---
 //cPanel.astro
 import PageTitle from "../../components/Base/PageTitle.astro";
-import BaseLayout from "../../Layouts/BaseLayout.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 import BrandsModelsKanban from "@/components/Disputa/BrandsModelsKanban";
 // import DatabaseSnapshot from "../../components/cPanel/DatabaseSnapshot";
 // import AddBrand from "../../components/cPanel/AddBrand";
@@ -11,10 +11,9 @@ import BrandsModelsKanban from "@/components/Disputa/BrandsModelsKanban";
 ---
 
 <BaseLayout>
-
-  <PageTitle title="Marcas e Modelos" />
-  <BrandsModelsKanban client:load />
-  <!-- <div id="products-list" class="p-4 grid grid-cols-3 gap-3">
+    <PageTitle title="Marcas e Modelos" />
+    <BrandsModelsKanban client:load />
+    <!-- <div id="products-list" class="p-4 grid grid-cols-3 gap-3">
 
     <h3 class="uppercase font-bold col-span-3 border-b border-black/20">
       Listagem de produtos
@@ -40,5 +39,4 @@ import BrandsModelsKanban from "@/components/Disputa/BrandsModelsKanban";
       <DatabaseSnapshot client:load />
     </div>
   </div> -->
-
 </BaseLayout>

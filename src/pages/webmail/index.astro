@@ -1,9 +1,10 @@
 ---
-import BaseLayout from "@/Layouts/BaseLayout.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageTitle from "@/components/Base/PageTitle.astro";
 import Webmail from "@/utils/Webmail";
 ---
+
 <BaseLayout>
-  <PageTitle title="Webmail" />
-  <Webmail client:only="react" />
+    <PageTitle title="Webmail" />
+    <Webmail client:only="react" />
 </BaseLayout>
