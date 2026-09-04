@@ -1,13 +1,12 @@
 import React from "react";
-import Divider from "@mui/material/Divider";
-import HomeIcon from "@mui/icons-material/Home";
-import SettingsIcon from "@mui/icons-material/Settings";
-import InfoIcon from "@mui/icons-material/Info";
-import LogoutIcon from "@mui/icons-material/Logout";
-import MailIcon from "@mui/icons-material/Mail";
-import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded";
-import GavelRoundedIcon from "@mui/icons-material/GavelRounded";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { RiHome2Line as HomeIcon } from "react-icons/ri";
+import { PiGavelLight as GavelRoundedIcon } from "react-icons/pi";
+import { IoDocumentTextOutline as DescriptionRoundedIcon } from "react-icons/io5";
+import { VscMail as MailIcon } from "react-icons/vsc";
+import { IoCartOutline as ShoppingCartIcon } from "react-icons/io5";
+import { PiGearSixLight as SettingsIcon } from "react-icons/pi";
+import { LiaInfoCircleSolid as InfoIcon } from "react-icons/lia";
+import { CiLogout as LogoutIcon } from "react-icons/ci";
 import { supabase } from "@/lib/supabase";
 
 const mainNavItems = [
@@ -46,13 +45,11 @@ const mainNavItems = [
   },
 ];
 
-const iconStyle = { fontSize: 24 };
-const dividerStyle = { opacity: 0.15, backgroundColor: "white" };
-const buttomLink = "flex items-center justify-start text-sm p-4 text-zinc-400 hover:text-lime-400 transition-colors duration-200 hover:bg-zinc-800/60 group";
+const iconStyle = "w-6 h-6";
+const buttomLink = "flex items-center justify-start text-sm p-4 text-zinc-400 group-hover:text-zinc-950 group-hover:bg-[#afd136] transition-colors duration-200 group";
 const buttomLinkDisabled = "flex items-center justify-start text-sm p-4 text-zinc-600 transition-colors duration-200 group cursor-not-allowed";
 
 export default function Navigation() {
-  
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
@@ -62,43 +59,41 @@ export default function Navigation() {
   };
 
   return (
-    <div className="fixed h-screen bg-zinc-900 text-zinc-200 flex flex-col shadow-lg z-[100] border-r border-zinc-800">
-      <div className="p-2 bg-zinc-900 border-b border-zinc-800">
-        <div className="flex items-center space-x-2">
-          <span className="flex justify-center items-center text-base rounded-full bg-zinc-950 border border-zinc-800 text-lime-400 font-bold w-10 h-10 flex-shrink-0 shadow-sm">
-            CH
-          </span>
+    <div className="fixed h-screen bg-zinc-950/95 text-zinc-200 flex flex-col justify-between shadow-lg z-100 border-r-2 border-[#afd136]/10">
+      <div className="p-2">
+        <div className="flex items-center justify-center h-10 w-10 rounded-full border-2 border-[#afd136]">
+          <img src="/assets/logo-fill.svg" alt="Logo da Chevromais" className="w-5 h-auto" />
+
         </div>
       </div>
 
       <div className="flex items-center flex-col">
         {mainNavItems.map((item, index) => {
           const IconComponent = item.icon;
-          const borderClasses = `${item.borderTop ? "border-t border-zinc-800" : ""} ${item.borderBottom ? "border-b border-zinc-800" : ""}`;
 
           if (item.type === "link") {
             return (
-              <div key={index} className={`group relative ${borderClasses} w-full`}>
-                <a href={item.disabled ? undefined : item.href} className={`${item.disabled ? buttomLinkDisabled : buttomLink} my-2 w-full`} title={item.title}>
-                  <IconComponent sx={iconStyle} />
+              <div key={index} className={`group relative w-full`}>
+                <a href={item.disabled ? undefined : item.href} className={`${item.disabled ? buttomLinkDisabled : buttomLink} w-full`} title={item.title}>
+                  <IconComponent className={iconStyle} />
                 </a>
               </div>
             );
           }
 
           return (
-            <div key={index} className={`group relative ${borderClasses} w-full`}>
-              <div className={`${item.disabled ? buttomLinkDisabled : buttomLink} my-2 group-hover:bg-zinc-800/60 group-hover:text-lime-400 cursor-pointer w-full`}>
-                <IconComponent sx={iconStyle} />
+            <div key={index} className={`group relative w-full`}>
+              <div className={`${item.disabled ? buttomLinkDisabled : buttomLink} cursor-pointer w-full`}>
+                <IconComponent className={iconStyle} />
               </div>
 
               {!item.disabled && (
-                <div className="absolute bg-zinc-900 border border-zinc-800 p-2 left-[56px] top-0 opacity-0 rounded-r-lg shadow-xl group-hover:opacity-100 transition-all duration-200 text-zinc-300 w-48 pointer-events-none group-hover:pointer-events-auto">
-                  <h2 className="border-b border-zinc-800 p-2 mb-2 font-bold uppercase text-lime-400 text-xs tracking-wider">{item.title}</h2>
+                <div className="absolute bg-zinc-900 border-2 border-[#afd136] left-[56px] top-0 opacity-0 shadow-lg shadow-black group-hover:opacity-100 transition-all duration-200 text-zinc-300 w-48 pointer-events-none group-hover:pointer-events-auto">
+                  <h2 className="p-2 font-bold uppercase bg-[#afd136] text-black p-2 text-xs tracking-wider">{item.title}</h2>
                   <ul className="space-y-1">
                     {item.links.map((subLink, subIdx) => (
                       <li key={subIdx}>
-                        <a href={subLink.href} className="p-2 block hover:bg-lime-400/10 hover:text-lime-400 hover:ring-1 hover:ring-lime-400/30 rounded-lg transition-all duration-200 hover:pl-3 text-xs">
+                        <a href={subLink.href} className="p-4 block hover:text-[#afd136] hover:bg-black/50 transition-all duration-200 hover:pl-6 text-xs">
                           {subLink.label}
                         </a>
                       </li>
@@ -111,13 +106,12 @@ export default function Navigation() {
         })}
       </div>
 
-      <div className="mt-auto w-full flex flex-col">
-        <Divider sx={dividerStyle} />
+      <div className="w-full flex flex-col pb-2">
         <a className={`${buttomLinkDisabled} mt-2 w-full`}>
-          <SettingsIcon sx={iconStyle} />
+          <SettingsIcon className={iconStyle} />
         </a>
         <a className={`${buttomLinkDisabled} w-full`}>
-          <InfoIcon sx={iconStyle} />
+          <InfoIcon className={iconStyle} />
         </a>
 
         <button
@@ -126,10 +120,8 @@ export default function Navigation() {
           title="Sair da conta"
           className={`${buttomLink} mb-2 hover:text-red-400 hover:bg-red-500/10 transition-colors duration-200 cursor-pointer w-full border-none outline-none`}
         >
-          <LogoutIcon sx={iconStyle} />
+          <LogoutIcon className={iconStyle} />
         </button>
-
-        <p className="text-xs text-center text-zinc-600 mb-4 font-mono">v0.5.0</p>
       </div>
     </div>
   );

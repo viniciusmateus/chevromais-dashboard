@@ -53,11 +53,13 @@ export default function LinePricer({ index, lote, item, refValue, qtde = "00001"
 		});
 	}, [marca, modelo, expected, costInput, globalChecked]);
 
+	const ACCENT = "#afd136";
+
 	// --- Cores por estado (Dark Mode) ---
 	const calcStateMap = {
 		normal: "text-zinc-200",
 		ok: "text-lime-400",
-		attention: "text-amber-400",
+		attention: `text-[${ACCENT}]`,
 		caution: "text-red-500",
 	};
 
@@ -157,7 +159,7 @@ export default function LinePricer({ index, lote, item, refValue, qtde = "00001"
 						{expected !== null && refValue && (
 							<span
 								className={`text-xs font-bold font-mono ${
-									expected < refValue ? "text-lime-400" : expected <= refValue * 1.1 ? "text-amber-400" : "text-red-500"
+									expected < refValue ? "text-lime-400" : expected <= refValue * 1.1 ? `text-[${ACCENT}]` : "text-red-500"
 								}`}
 							>
 								({(((expected - refValue) / refValue) * 100).toFixed(2).replace(".", ",")}%)
