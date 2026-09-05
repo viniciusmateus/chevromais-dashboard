@@ -14,3 +14,13 @@ env:
     value: "8080"
     availability:
       - RUNTIME
+  - variable: PUBLIC_SUPABASE_URL
+    value: "https://vzehkmwphlolhvgcwbfh.supabase.co"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: PUBLIC_SUPABASE_PUBLISHABLE_KEY
+    value: "sb_publishable_FfwkWjTQ_241Y69vw3c03w_TdU0mQ8u"
+    availability:
+      - BUILD
+      - RUNTIME
