@@ -6,6 +6,7 @@ runConfig:
   memoryMiB: 2048
 
 env:
+  # Servidor
   - variable: HOST
     value: "0.0.0.0"
     availability:
@@ -14,6 +15,8 @@ env:
     value: "8080"
     availability:
       - RUNTIME
+
+  # Supabase
   - variable: PUBLIC_SUPABASE_URL
     value: "https://vzehkmwphlolhvgcwbfh.supabase.co"
     availability:
@@ -23,4 +26,39 @@ env:
     value: "sb_publishable_FfwkWjTQ_241Y69vw3c03w_TdU0mQ8u"
     availability:
       - BUILD
+      - RUNTIME
+
+  # Configurações de E-mail (IMAP / SMTP)
+  - variable: IMAP_HOST
+    value: "email-ssl.com.br" # substitua pelo seu host IMAP
+    availability:
+      - RUNTIME
+  - variable: IMAP_PORT
+    value: "993"
+    availability:
+      - RUNTIME
+  - variable: IMAP_USER
+    value: "contato@pneuscuritiba.com.br" # substitua pelo seu e-mail
+    availability:
+      - RUNTIME
+  - variable: IMAP_PASS
+    secret: IMAP_PASS # Aponta para o Secret Manager
+    availability:
+      - RUNTIME
+
+  - variable: SMTP_HOST
+    value: "email-ssl.com.br" # substitua pelo seu host SMTP
+    availability:
+      - RUNTIME
+  - variable: SMTP_PORT
+    value: "465"
+    availability:
+      - RUNTIME
+  - variable: SMTP_USER
+    value: "contato@pneuscuritiba.com.br" # substitua pelo seu e-mail
+    availability:
+      - RUNTIME
+  - variable: SMTP_PASS
+    secret: IMAP_PASS # Se a senha do SMTP for a mesma do IMAP, use o mesmo secret. Caso contrário, crie um "SMTP_PASS" no Secret Manager.
+    availability:
       - RUNTIME
