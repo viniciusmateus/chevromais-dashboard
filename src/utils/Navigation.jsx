@@ -75,7 +75,7 @@ export default function Navigation() {
   };
 
   return (
-    <div className="fixed h-screen bg-zinc-950/95 text-zinc-200 flex flex-col justify-between shadow-lg z-100 border-r-2 border-[#afd136]/10">
+    <div className="fixed h-screen bg-zinc-950/95 text-zinc-200 flex flex-col justify-between z-100 border-r-2 border-[#afd136]/0 shadow-[0_0_10px_rgba(0,0,0,.5)]">
       <div className="p-2">
         <div className="flex items-center justify-center h-10 w-10 rounded-full border-2 border-[#afd136]">
           <img

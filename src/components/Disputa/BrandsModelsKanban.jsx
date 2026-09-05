@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import * as XLSX from "xlsx";
-import DeleteIcon from "@mui/icons-material/DeleteForeverOutlined";
-import EditIcon from "@mui/icons-material/EditOutlined";
+import {
+  FiEdit2 as EditIcon,
+  FiTrash as DeleteIcon,
+  FiSearch as SearchIcon,
+} from "react-icons/fi";
 import AddIcon from "@mui/icons-material/Add";
-import ViewKanbanIcon from "@mui/icons-material/ViewKanban";
-import SearchIcon from "@mui/icons-material/Search";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import CloseIcon from "@mui/icons-material/Close";
+import { RxCross1 } from "react-icons/rx";
 
 export default function BrandsModelsKanban() {
   const [brands, setBrands] = useState([]);
@@ -42,8 +44,14 @@ export default function BrandsModelsKanban() {
   const loadData = async () => {
     try {
       const [brandsRes, modelsRes] = await Promise.all([
-        supabase.from("brands").select("id, name, usage").order("name", { ascending: true }),
-        supabase.from("models").select("id, name, brand_id, usage").order("name", { ascending: true }),
+        supabase
+          .from("brands")
+          .select("id, name, usage")
+          .order("name", { ascending: true }),
+        supabase
+          .from("models")
+          .select("id, name, brand_id, usage")
+          .order("name", { ascending: true }),
       ]);
 
       if (brandsRes.error) throw brandsRes.error;
@@ -62,14 +70,14 @@ export default function BrandsModelsKanban() {
 
   // Filtra as marcas de acordo com o campo de busca
   const filteredBrands = brands.filter((b) =>
-    b.name.toLowerCase().includes(searchBrand.toLowerCase())
+    b.name.toLowerCase().includes(searchBrand.toLowerCase()),
   );
 
   // Filtra os modelos pela marca selecionada E pelo termo de busca
   const filteredModels = models.filter(
     (m) =>
       m.brand_id === selectedBrandId &&
-      m.name.toLowerCase().includes(searchModel.toLowerCase())
+      m.name.toLowerCase().includes(searchModel.toLowerCase()),
   );
 
   // Atalho de teclado para adicionar (ENTER)
@@ -96,7 +104,13 @@ export default function BrandsModelsKanban() {
   };
 
   const closeModal = () => {
-    setModalConfig({ isOpen: false, type: "", mode: "add", id: null, initialValue: "" });
+    setModalConfig({
+      isOpen: false,
+      type: "",
+      mode: "add",
+      id: null,
+      initialValue: "",
+    });
     setInputValue("");
     setError(null);
   };
@@ -113,18 +127,28 @@ export default function BrandsModelsKanban() {
     try {
       if (type === "brand") {
         if (mode === "add") {
-          const { error } = await supabase.from("brands").insert([{ name: cleanValue }]);
+          const { error } = await supabase
+            .from("brands")
+            .insert([{ name: cleanValue }]);
           if (error) throw error;
         } else {
-          const { error } = await supabase.from("brands").update({ name: cleanValue }).eq("id", id);
+          const { error } = await supabase
+            .from("brands")
+            .update({ name: cleanValue })
+            .eq("id", id);
           if (error) throw error;
         }
       } else if (type === "model") {
         if (mode === "add") {
-          const { error } = await supabase.from("models").insert([{ name: cleanValue, brand_id: selectedBrandId }]);
+          const { error } = await supabase
+            .from("models")
+            .insert([{ name: cleanValue, brand_id: selectedBrandId }]);
           if (error) throw error;
         } else {
-          const { error } = await supabase.from("models").update({ name: cleanValue }).eq("id", id);
+          const { error } = await supabase
+            .from("models")
+            .update({ name: cleanValue })
+            .eq("id", id);
           if (error) throw error;
         }
       }
@@ -140,7 +164,12 @@ export default function BrandsModelsKanban() {
 
   // Excluir Item
   const handleDelete = async (type, id) => {
-    if (!confirm(`Tem certeza que deseja excluir est${type === "brand" ? "a marca" : "e modelo"}?`)) return;
+    if (
+      !confirm(
+        `Tem certeza que deseja excluir est${type === "brand" ? "a marca" : "e modelo"}?`,
+      )
+    )
+      return;
 
     try {
       if (type === "brand") {
@@ -202,7 +231,9 @@ export default function BrandsModelsKanban() {
       });
 
       if (brandColIndex === null || modelColIndex === null) {
-        alert("Erro: Não foi possível identificar as colunas 'Marca' e 'Modelo' na planilha.");
+        alert(
+          "Erro: Não foi possível identificar as colunas 'Marca' e 'Modelo' na planilha.",
+        );
         setIsImporting(false);
         return;
       }
@@ -264,7 +295,7 @@ export default function BrandsModelsKanban() {
 
         // 2. Processar Modelo
         const isModelExists = currentModels.some(
-          (m) => m.name.toUpperCase() === cleanModel && m.brand_id === brandID
+          (m) => m.name.toUpperCase() === cleanModel && m.brand_id === brandID,
         );
 
         if (isModelExists) {
@@ -316,14 +347,18 @@ export default function BrandsModelsKanban() {
     searchValue,
     onSearchChange,
   }) => (
-    <div className={`bg-zinc-900 border border-zinc-800 rounded-2xl shadow-lg overflow-hidden flex flex-col transition-all duration-200 ${disabled ? "opacity-30 pointer-events-none" : "opacity-100"}`}>
+    <div
+      className={`shadow-lg overflow-hidden flex flex-col transition-all duration-200 ${disabled ? "opacity-30 pointer-events-none" : "opacity-100"}`}
+    >
       {/* Cabeçalho da Coluna */}
-      <div className="p-4 bg-zinc-800 text-white flex justify-between items-center border-b border-zinc-700/80">
-        <span className="font-bold text-xs uppercase tracking-wider text-lime-400">{title}</span>
+      <div className="p-4 text-white flex justify-between items-center border-2 border-[#afdb21]">
+        <span className="font-bold uppercase tracking-wider text-[#afdb21]">
+          {title}
+        </span>
         <button
           onClick={() => !disabled && openModal(type, "add")}
           disabled={disabled}
-          className="bg-zinc-700 hover:bg-zinc-600 active:scale-95 disabled:opacity-40 text-slate-100 w-7 h-7 rounded-lg transition-all shadow-sm inline-flex items-center justify-center shrink-0 border border-zinc-600"
+          className="hover:bg-[#afdb21] cursor-pointer active:scale-95 disabled:opacity-40 text-slate-100 w-10 aspect-square transition-all shadow-sm inline-flex items-center justify-center shrink-0 border-2 border-[#afdb21] hover:text-black"
           title={`Adicionar ${title} (Atalho: ENTER)`}
         >
           <AddIcon sx={{ fontSize: 16 }} />
@@ -332,28 +367,33 @@ export default function BrandsModelsKanban() {
 
       {/* Campo de Pesquisa */}
       {!disabled && (
-        <div className="p-2 bg-zinc-900 border-b border-zinc-800/80">
+        <div>
           <div className="relative flex items-center">
-            <SearchIcon className="absolute left-3 text-zinc-500" sx={{ fontSize: 18 }} />
+            <SearchIcon
+              className="absolute left-3 text-zinc-500"
+              sx={{ fontSize: 18 }}
+            />
             <input
               type="text"
               value={searchValue}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder={`Buscar ${title.toLowerCase()}...`}
-              className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-1.5 pl-9 pr-3 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-lime-400 placeholder:text-zinc-600 transition-all uppercase"
+              className="w-full bg-zinc-950 border-b-2 border-[#afdb21] py-3 pl-9 pr-3 text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#afdb21] placeholder:text-zinc-600 transition-all uppercase"
             />
           </div>
         </div>
       )}
 
       {/* Lista de Itens */}
-      <div className="divide-y divide-zinc-800/50 max-h-[500px] overflow-y-auto p-1.5 bg-zinc-950 custom-scrollbar">
+      <div className="max-h-125 overflow-y-auto p-1.5 bg-zinc-950 custom-scrollbar">
         {disabled ? (
-          <div className="p-6 text-center flex flex-col items-center justify-center border-2 border-dashed border-zinc-800/50 rounded-xl m-2 opacity-70 min-h-[100px]">
-            <span className="text-zinc-500 text-xs font-semibold">{emptyMsg}</span>
+          <div className="p-6 text-center flex flex-col items-center justify-center border-2 border-dashed border-zinc-800/50 m-2 opacity-70 min-h-25">
+            <span className="text-zinc-500 text-xs font-semibold">
+              {emptyMsg}
+            </span>
           </div>
         ) : data.length === 0 ? (
-          <div className="p-6 text-center flex flex-col items-center justify-center border-2 border-dashed border-zinc-800/50 rounded-xl m-2 opacity-70 min-h-[100px]">
+          <div className="py-6 text-center flex flex-col items-center justify-center border-2 border-dashed border-zinc-800/50 m-2 opacity-70 min-h-25">
             <span className="text-zinc-500 text-xs font-semibold uppercase tracking-wider">
               {searchValue ? "Nenhum resultado encontrado" : "Nenhum item"}
             </span>
@@ -363,9 +403,10 @@ export default function BrandsModelsKanban() {
             const isSelected = isSelectedFn(item);
 
             // Contagem dos modelos vinculados (apenas se for marca)
-            const modelsCount = type === "brand"
-              ? models.filter((m) => m.brand_id === item.id).length
-              : null;
+            const modelsCount =
+              type === "brand"
+                ? models.filter((m) => m.brand_id === item.id).length
+                : null;
 
             // Uso retornado diretamente da coluna 'usage' do banco de dados
             const usageCount = item.usage ?? 0;
@@ -374,37 +415,59 @@ export default function BrandsModelsKanban() {
               <div
                 key={item.id}
                 onClick={() => onClickFn && onClickFn(item)}
-                className={`p-3.5 my-1 rounded-xl flex justify-between items-center transition-all border ${
+                className={`p-3.5 my-1 flex justify-between font-bold items-center transition-all border-2 ${
                   isSelected
-                    ? "bg-lime-400 text-black font-bold border-lime-500 shadow-md shadow-lime-400/10"
-                    : "bg-zinc-900 border-zinc-800/80 hover:bg-zinc-800/80 hover:border-zinc-700 text-slate-300 font-medium cursor-pointer"
+                    ? "bg-[#afdb21] text-black border-[#afdb21] shadow-md shadow-[#afdb21]/10"
+                    : "border-black/0 hover:border-[#afdb21] text-slate-300 cursor-pointer"
                 }`}
               >
-                <div className="flex items-center gap-2 truncate">
-                  <span className="truncate text-sm uppercase">{item.name}</span>
+                <div className="flex items-center gap-2 truncate w-full">
+                  {type === "brand" && (
+                    <span
+                      className={`text-[10px] flex gap-3 items-center justify-end font-semibold transition-colors ${
+                        isSelected ? "text-black " : " text-zinc-300"
+                      }`}
+                    >
+                      <span
+                        className={`font-black p-1 w-5 aspect-square flex items-center text-black justify-center ${isSelected ? "bg-black/25 " : "bg-[#afdb21]"}`}
+                      >
+                        {modelsCount}
+                      </span>
+                    </span>
+                  )}
+                  <span className="truncate text-sm uppercase w-full">
+                    {item.name}
+                  </span>
 
                   {/* Badge para MARCAS: Usado e Modelos */}
                   {type === "brand" && (
                     <span
-                      className={`text-[10px] px-2 py-0.5 rounded-md font-semibold shrink-0 transition-colors ${
-                        isSelected
-                          ? "bg-black/20 text-black border border-black/10"
-                          : "bg-zinc-800 text-zinc-300 border border-zinc-700"
+                      className={`text-[10px] font-semibold transition-colors ${
+                        isSelected ? "text-black " : " text-zinc-300"
                       }`}
                     >
-                      <span className={isSelected ? "text-black font-bold" : "text-lime-400 font-bold"}>
-                        Usado: {usageCount}
+                      <span
+                        className={`flex items-baseline justify-center gap-1
+                          ${
+                            isSelected
+                              ? "text-black font-bold"
+                              : "text-zinc-700 font-bold"
+                          }`}
+                      >
+                        <RxCross1 className="text-[10px]" />{" "}
+                        <span className="font-semibold text-sm">
+                          {usageCount}
+                        </span>
                       </span>
-                      <span className="mx-1 opacity-40">|</span>
-                      <span>Mod: {modelsCount}</span>
                     </span>
                   )}
 
                   {/* Badge para MODELOS: apenas Usado */}
                   {type === "model" && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-md font-semibold shrink-0 bg-zinc-800 text-zinc-300 border border-zinc-700">
-                      <span className="text-lime-400 font-bold">
-                        Usado: {usageCount}
+                    <span className="flex items-baseline justify-center gap-1 text-zinc-700">
+                      <RxCross1 className="text-[10px]" />{" "}
+                      <span className="font-semibold text-sm">
+                        {usageCount}
                       </span>
                     </span>
                   )}
@@ -417,13 +480,13 @@ export default function BrandsModelsKanban() {
                       e.stopPropagation();
                       openModal(type, "edit", item.id, item.name);
                     }}
-                    className={`w-7 h-7 rounded-lg inline-flex items-center justify-center transition-colors ${
+                    className={`cursor-pointer w-10 h-10 inline-flex items-center justify-center transition-all duration-300 ${
                       isSelected
-                        ? "bg-black/10 hover:bg-black/20 text-black"
-                        : "bg-zinc-800 hover:bg-zinc-700 text-slate-400 hover:text-slate-100 border border-zinc-700/80"
+                        ? " bg-black/25 hover:bg-black/30 text-black"
+                        : " hover:text-[#afdb21]"
                     }`}
                   >
-                    <EditIcon sx={{ fontSize: 16 }} />
+                    <EditIcon />
                   </button>
                   <button
                     title="Excluir"
@@ -431,13 +494,13 @@ export default function BrandsModelsKanban() {
                       e.stopPropagation();
                       handleDelete(type, item.id);
                     }}
-                    className={`w-7 h-7 rounded-lg inline-flex items-center justify-center transition-colors ${
+                    className={`cursor-pointer w-10 h-10 inline-flex items-center justify-center transition-all duration-300 ${
                       isSelected
-                        ? "bg-black/20 hover:bg-black text-black hover:text-red-700 border border-transparent"
-                        : "bg-black hover:bg-zinc-950 text-zinc-400 hover:text-red-500 border border-zinc-800/80"
+                        ? "bg-black/25 hover:bg-black/30 text-black hover:text-red-700"
+                        : "text-zinc-400 hover:text-red-500"
                     }`}
                   >
-                    <DeleteIcon sx={{ fontSize: 16 }} />
+                    <DeleteIcon />
                   </button>
                 </div>
               </div>
@@ -449,20 +512,25 @@ export default function BrandsModelsKanban() {
   );
 
   return (
-    <div className="p-6 max-w-5xl mx-auto flex flex-col gap-6 font-sans text-slate-100 select-none bg-zinc-950 min-h-screen">
+    <div className="p-6 max-w-5xl mx-auto flex flex-col gap-6 font-sans text-slate-100 select-none bg-zinc-950 ">
       {/* HEADER E BOTÃO DE IMPORTAR */}
-      <div className="flex items-center justify-between gap-4 p-4 bg-zinc-900 rounded-2xl border border-zinc-800/80 shadow-2xl">
-        <div className="flex items-center gap-2">
-          <ViewKanbanIcon className="text-lime-400" />
-          <h2 className="font-bold text-sm tracking-wide uppercase">Marcas e Modelos</h2>
-        </div>
-
+      <div className="flex items-center justify-between gap-4">
         <button
           onClick={() => setIsImportModalOpen(true)}
-          className="flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 active:scale-95 text-lime-400 border border-zinc-700 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
+          className="group relative z-10 flex items-center gap-2 bg-transparent border-2 border-[#afdb21] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#afdb21] hover:text-zinc-950 transition-colors duration-300 transform overflow-hidden shadow-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#afdb21] focus:ring-offset-2 focus:ring-offset-zinc-950 cursor-pointer"
         >
-          <FileUploadIcon sx={{ fontSize: 18 }} />
-          Importar Planilha
+          {/* Camada de animação de fundo (preenchimento da esquerda para a direita) */}
+          <div className="absolute inset-0 bg-[#afdb21] -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out z-0" />
+
+          {/* Ícone com compensação do skew */}
+          <div className="relative z-10 shrink-0 transform">
+            <FileUploadIcon sx={{ fontSize: 18 }} />
+          </div>
+
+          {/* Texto com compensação do skew */}
+          <span className="relative z-10 tracking-wider transform">
+            Importar Planilha
+          </span>
         </button>
       </div>
 
@@ -505,22 +573,24 @@ export default function BrandsModelsKanban() {
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50">
           <div className="bg-zinc-900 rounded-2xl p-6 w-full max-w-md shadow-2xl border border-zinc-800 transition-all scale-100">
             <h3 className="text-base font-bold mb-5 text-slate-50 capitalize flex items-center gap-2">
-              <span className="w-1.5 h-6 bg-lime-400 rounded-full"></span>
-              {modalConfig.mode === "add" ? "Adicionar" : "Editar"} {modalConfig.type === "brand" ? "Marca" : "Modelo"}
+              <span className="w-1.5 h-6 bg-[#afdb21] rounded-full"></span>
+              {modalConfig.mode === "add" ? "Adicionar" : "Editar"}{" "}
+              {modalConfig.type === "brand" ? "Marca" : "Modelo"}
             </h3>
 
             <form onSubmit={handleSave}>
               <div className="flex flex-col gap-5 mb-7">
                 <div>
                   <label className="text-xs font-semibold text-slate-400 mb-1.5 block">
-                    Nome d{modalConfig.type === "brand" ? "a Marca" : "o Modelo"}:
+                    Nome d
+                    {modalConfig.type === "brand" ? "a Marca" : "o Modelo"}:
                   </label>
                   <input
                     type="text"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     placeholder="Digite o nome..."
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-lime-400 font-medium text-slate-100 text-sm transition-all placeholder:text-zinc-600 uppercase"
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-[#afdb21] font-medium text-slate-100 text-sm transition-all placeholder:text-zinc-600 uppercase"
                     autoFocus
                   />
                 </div>
@@ -537,7 +607,7 @@ export default function BrandsModelsKanban() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="px-5 py-2.5 bg-lime-400 text-black rounded-xl hover:bg-lime-500 active:scale-95 font-bold text-xs tracking-wide transition-all shadow-lg border border-lime-500 disabled:opacity-50"
+                  className="px-5 py-2.5 bg-[#afdb21] text-black rounded-xl hover:bg-lime-500 active:scale-95 font-bold text-xs tracking-wide transition-all shadow-lg border border-lime-500 disabled:opacity-50"
                 >
                   {isLoading ? "Salvando..." : "Salvar"}
                 </button>
@@ -553,7 +623,7 @@ export default function BrandsModelsKanban() {
           <div className="bg-zinc-900 rounded-2xl p-6 w-full max-w-lg shadow-2xl border border-zinc-800 transition-all">
             <div className="flex justify-between items-center mb-5 pb-3 border-b border-zinc-800">
               <h3 className="text-base font-bold text-slate-50 flex items-center gap-2">
-                <span className="w-1.5 h-6 bg-lime-400 rounded-full"></span>
+                <span className="w-1.5 h-6 bg-[#afdb21] rounded-full"></span>
                 Importar Marcas e Modelos (.xlsx)
               </h3>
               <button
@@ -575,7 +645,7 @@ export default function BrandsModelsKanban() {
                     onChange={handleFileChange}
                   />
                 </label>
-                <span className="text-xs text-zinc-400 truncate max-w-[240px]">
+                <span className="text-xs text-zinc-400 truncate max-w-60">
                   {fileName}
                 </span>
               </div>
@@ -583,7 +653,7 @@ export default function BrandsModelsKanban() {
               <button
                 onClick={processImportFile}
                 disabled={!selectedFile || isImporting}
-                className="w-full py-3 bg-lime-400 hover:bg-lime-500 active:scale-98 text-black font-bold rounded-xl text-xs uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg border border-lime-500 mt-2"
+                className="w-full py-3 bg-[#afdb21] hover:bg-lime-500 active:scale-98 text-black font-bold rounded-xl text-xs uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg border border-lime-500 mt-2"
               >
                 {isImporting ? "Importando..." : "Enviar e Processar"}
               </button>
@@ -604,7 +674,10 @@ export default function BrandsModelsKanban() {
                     <div className="flex justify-between">
                       <span>Progresso:</span>
                       <span className="font-bold text-slate-200">
-                        {Math.round((importStats.rowsProcessed / totalRows) * 100)}%
+                        {Math.round(
+                          (importStats.rowsProcessed / totalRows) * 100,
+                        )}
+                        %
                       </span>
                     </div>
                   </div>
@@ -629,7 +702,7 @@ export default function BrandsModelsKanban() {
                   </div>
 
                   {importStats.rowsProcessed === totalRows && (
-                    <div className="mt-4 pt-3 border-t border-zinc-800 text-center text-lime-400 font-bold text-xs uppercase tracking-wide">
+                    <div className="mt-4 pt-3 border-t border-zinc-800 text-center text-[#afdb21] font-bold text-xs uppercase tracking-wide">
                       ✅ Importação Concluída com Sucesso!
                     </div>
                   )}
@@ -653,8 +726,8 @@ export default function BrandsModelsKanban() {
       {/* ESTILOS CSS PERSONALIZADOS PARA A SCROLLBAR */}
       <style>{`
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #09090b; border-radius: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #a3e635; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: red;}
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #afdb21; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #84cc16; }
       `}</style>
     </div>

@@ -1,8 +1,11 @@
-import { ImapFlow } from 'imapflow';
-import { simpleParser } from 'mailparser';
-import { supabase } from '@/lib/supabase';
+import { ImapFlow } from "imapflow";
+import { simpleParser } from "mailparser";
+import { getSupabaseForRequest } from "@/lib/supabaseServer";
+import { getAppSetting } from "@/lib/getSettings";
 
 export async function POST({ request }) {
+  const supabase = getSupabaseForRequest(request);
+
   let messageIds = [];
   try {
     const body = await request.json();
@@ -11,18 +14,18 @@ export async function POST({ request }) {
 
   // 1. Exclui do Supabase todos os e-mails marcados com is_deleted
   try {
-    await supabase.from('emails').delete().eq('is_deleted', true);
+    await supabase.from("emails").delete().eq("is_deleted", true);
   } catch (dbErr) {
-    console.error('Erro ao deletar lixeira do Supabase:', dbErr);
+    console.error("Erro ao deletar lixeira do Supabase:", dbErr);
   }
 
   // 2. Apaga em lote do servidor IMAP (1 única conexão e varredura)
   if (messageIds.length > 0) {
     try {
-      const host = import.meta.env.IMAP_HOST || process.env.IMAP_HOST;
-      const port = Number(import.meta.env.IMAP_PORT || process.env.IMAP_PORT || 993);
-      const user = import.meta.env.IMAP_USER || process.env.IMAP_USER;
-      const pass = import.meta.env.IMAP_PASS || process.env.IMAP_PASS;
+      const host = await getAppSetting(supabase, "IMAP_HOST");
+      const port = Number((await getAppSetting(supabase, "IMAP_PORT")) || 993);
+      const user = await getAppSetting(supabase, "IMAP_USER");
+      const pass = await getAppSetting(supabase, "IMAP_PASS");
 
       if (user && pass) {
         const client = new ImapFlow({
@@ -30,23 +33,31 @@ export async function POST({ request }) {
           port,
           secure: true,
           auth: { user, pass },
-          logger: false
+          logger: false,
         });
 
         await client.connect();
-        let lock = await client.getMailboxLock('INBOX');
+        let lock = await client.getMailboxLock("INBOX");
 
         try {
           // Cria um conjunto com os Message-IDs limpos para busca instantânea
           const targetIds = new Set(
-            messageIds.filter(Boolean).map((id) => id.trim().replace(/^<|>$/g, ''))
+            messageIds
+              .filter(Boolean)
+              .map((id) => id.trim().replace(/^<|>$/g, "")),
           );
           const uidsToDelete = [];
 
           // Varre a caixa uma única vez coletando todos os e-mails correspondentes
-          for await (let msg of client.fetch('1:*', { source: true, envelope: true }, { uid: true })) {
+          for await (let msg of client.fetch(
+            "1:*",
+            { source: true, envelope: true },
+            { uid: true },
+          )) {
             const parsed = await simpleParser(msg.source);
-            const envId = (msg.envelope?.messageId || parsed.messageId || '').trim().replace(/^<|>$/g, '');
+            const envId = (msg.envelope?.messageId || parsed.messageId || "")
+              .trim()
+              .replace(/^<|>$/g, "");
 
             if (targetIds.has(envId)) {
               uidsToDelete.push(msg.uid);
@@ -55,7 +66,9 @@ export async function POST({ request }) {
 
           if (uidsToDelete.length > 0) {
             await client.messageDelete(uidsToDelete, { uid: true });
-            console.log(`[IMAP Lixeira] ${uidsToDelete.length} e-mails removidos com sucesso.`);
+            console.log(
+              `[IMAP Lixeira] ${uidsToDelete.length} e-mails removidos com sucesso.`,
+            );
           }
         } finally {
           lock.release();
@@ -64,7 +77,7 @@ export async function POST({ request }) {
         await client.logout();
       }
     } catch (imapErr) {
-      console.error('Erro ao esvaziar lixeira no IMAP:', imapErr);
+      console.error("Erro ao esvaziar lixeira no IMAP:", imapErr);
     }
   }
 

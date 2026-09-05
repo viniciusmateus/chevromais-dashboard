@@ -1,6 +1,6 @@
 ---
 import "@/styles/global.css";
-import Navigation from "@/components/Base/Navigation";
+import Navigation from "@/utils/Navigation";
 import AuthGuard from "@/utils/AuthWrapper";
 ---
 
@@ -29,13 +29,12 @@ import AuthGuard from "@/utils/AuthWrapper";
             </div>
         </AuthGuard>
     </body>
-
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap");
         html,
         body {
             margin: 0;
-            font-family: "Oxanium", sans-serif;
+            font-family: "Oxanium", sans-serif !important;
         }
     </style>
 </html>
