@@ -113,8 +113,8 @@ export default function Navigation() {
               </div>
 
               {!item.disabled && (
-                <div className="absolute bg-zinc-900 border-2 border-[#afd136] left-[56px] top-0 opacity-0 shadow-lg shadow-black group-hover:opacity-100 transition-all duration-200 text-zinc-300 w-48 pointer-events-none group-hover:pointer-events-auto">
-                  <h2 className="p-2 font-bold uppercase bg-[#afd136] text-black p-2 text-xs tracking-wider">
+                <div className="absolute bg-zinc-900 border-2 border-[#afd136] left-14 top-0 opacity-0 shadow-lg shadow-black group-hover:opacity-100 transition-all duration-200 text-zinc-300 w-48 pointer-events-none group-hover:pointer-events-auto">
+                  <h2 className="p-2 font-bold uppercase bg-[#afd136] text-black text-xs tracking-wider">
                     {item.title}
                   </h2>
                   <ul className="space-y-1">
